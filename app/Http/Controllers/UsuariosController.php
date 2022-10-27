@@ -52,4 +52,28 @@ class UsuariosController extends Controller
             return redirect('/usuarios')->with('mensagem', 'Usuario cadastrado.');
         }
     }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $usuario = DB::table('usuarios')->where('id', $id)->first();
+
+        return view('usuarios.detalhes', ['usuario' => $usuario]);
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $usuario = DB::table('usuarios')->where('id', $id)->first();
+
+        return view('usuarios.editar', ['usuario' => $usuario]);
+    }
 }
