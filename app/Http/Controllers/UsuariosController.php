@@ -76,4 +76,45 @@ class UsuariosController extends Controller
 
         return view('usuarios.editar', ['usuario' => $usuario]);
     }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(), [
+            'nome'  => 'required|min:3|max:120',
+            'email'      => 'required|min:0',
+            'idade' => 'required|numeric|min:2',
+            'telefone' => 'required|numeric|'
+        ]);
+
+        if ($validation->fails()) {
+            return redirect('usuarios/editar/'.$id)->withErrors($validation);
+        } else {
+            DB::table('usuarios')->where('id', $id)->update([
+                'nome'  => $request->nome,
+                'email'      => $request->email,
+                'idade' => $request->idade,
+                'telefone' => $request->telefone,                
+            ]);
+            return redirect('usuarios')->with('mensagem', 'Alterado com sucesso!');
+        }
+    }
+
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        DB::table('usuarios')->where('id', $id)->delete();
+        return redirect('usuarios')->with('mensagem', 'Excluído com sucesso!');
+    }
 }
