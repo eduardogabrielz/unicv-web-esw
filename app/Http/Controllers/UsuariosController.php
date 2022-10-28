@@ -52,6 +52,7 @@ class UsuariosController extends Controller
             return redirect('/usuarios')->with('mensagem', 'Usuario cadastrado.');
         }
     }
+    
     /**
      * Display the specified resource.
      *
@@ -76,19 +77,20 @@ class UsuariosController extends Controller
 
         return view('usuarios.editar', ['usuario' => $usuario]);
     }
+   
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function update(Request $request, $id)
     {
         $validation = Validator::make($request->all(), [
             'nome'  => 'required|min:3|max:120',
-            'email'      => 'required|min:0',
-            'idade' => 'required|numeric|min:2',
+            'email'      => 'required|e-mail',
+            'idade' => 'required|integer|min:1',
             'telefone' => 'required|numeric|'
         ]);
 
